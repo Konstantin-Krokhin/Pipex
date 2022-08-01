@@ -6,7 +6,7 @@
 #    By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 16:59:40 by kokrokhi          #+#    #+#              #
-#    Updated: 2022/07/28 19:07:58 by kokrokhi         ###   ########.fr        #
+#    Updated: 2022/08/02 00:01:46 by kokrokhi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ HEADER	= -I includes -I Libft/
 LIBFT	= Libft/
 LIBFT_A = Libft/libft.a
 
-SRCS	=	pipex.c
+SRCS	=	pipex.c pipex_helper.c
 
 OBJS	= $(SRCS:.c=.o)
 
