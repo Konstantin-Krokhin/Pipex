@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_printstring.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 17:17:21 by Konstantin        #+#    #+#             */
-/*   Updated: 2022/08/01 20:45:36 by kokrokhi         ###   ########.fr       */
+/*   Created: 2022/07/08 19:26:04 by kokrokhi          #+#    #+#             */
+/*   Updated: 2022/07/28 19:03:33 by kokrokhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 #include "libft.h"
-#ifndef PUTCHAR
-# define PUTCHAR
 
-void	ft_putchar_fd(char c, int fd)
+int	ft_printstring(char *str)
 {
-	write(fd, &c, 1);
+	if (!str)
+		return (ft_printstring("(null)"));
+	return (write(1, str, ft_strlen(str)));
 }
-#endif

@@ -6,7 +6,7 @@
 #    By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/22 16:59:40 by kokrokhi          #+#    #+#              #
-#    Updated: 2022/07/22 17:10:46 by kokrokhi         ###   ########.fr        #
+#    Updated: 2022/07/28 19:07:58 by kokrokhi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	= pipex
 CFLAGS	= -Wall -Werror -Wextra
 HEADER	= -I includes -I Libft/
 LIBFT	= Libft/
-LIBFT_A = Libft/libft.a 
+LIBFT_A = Libft/libft.a
 
 SRCS	=	pipex.c
 
@@ -40,7 +40,7 @@ else
 SUBM_FLAG	= 
 endif
 
-all: $(SUBM_STATE) $(LIBFT_A) $(NAME) 
+all: $(SUBM_STATE) $(LIBFT_A) $(PRINTF_A) $(NAME) 
 
 %.o : %.c 
 	@echo "$(B_PURPLE)Compiling: $(BLUE)$(notdir $<) 🔨$(NC)"
@@ -59,10 +59,6 @@ Pipex:
 
 $(NAME): Pipex $(OBJS)
 	@$(CC) $(HEADER) -L$(LIBFT) $(SRCS) $(DEBUG) -lft -o $(NAME)
-
-bonus: $(LIBFT_A) $(OBJS)
-	@echo "${BLUE}======== Bonus... ========${NC}"
-	$(CC) -D BONUS=1 $(HEADER) -L$(LIBFT) $(SRCS) $(DEBUG) -lft -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)

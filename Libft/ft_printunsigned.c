@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_printunsigned.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 17:17:21 by Konstantin        #+#    #+#             */
-/*   Updated: 2022/08/01 20:45:36 by kokrokhi         ###   ########.fr       */
+/*   Created: 2022/07/08 20:00:45 by kokrokhi          #+#    #+#             */
+/*   Updated: 2022/07/09 13:30:43 by kokrokhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#ifndef PUTCHAR
-# define PUTCHAR
+#include "ft_printf.h"
 
-void	ft_putchar_fd(char c, int fd)
+int	ft_printunsigned(unsigned int n)
 {
-	write(fd, &c, 1);
+	unsigned int	i;
+
+	i = 0;
+	if (n < 0)
+		return (0);
+	if (n >= 10)
+	{
+		i += ft_printunsigned(n / 10);
+		i += ft_printunsigned(n % 10);
+	}
+	if (n < 10)
+		i += ft_printchar(n + '0');
+	return (i);
 }
-#endif

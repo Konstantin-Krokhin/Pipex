@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: konsta <konsta@student.42.fr>              +#+  +:+       +#+         #
+#    By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/28 22:11:49 by konstantink       #+#    #+#              #
-#    Updated: 2022/01/09 18:50:00 by konsta           ###   ########.fr        #
+#    Updated: 2022/07/28 19:05:48 by kokrokhi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,12 @@ SRC =	ft_strnstr.c \
 		ft_isalnum.c \
 		ft_itoa.c \
 		ft_tolower.c \
+		ft_printf.c \
+		ft_printdecimal.c \
+		ft_printhex.c \
+		ft_printstring.c \
+		ft_printunsigned.c \
+		ft_printvoid.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -1,10 +1,10 @@
 #include "unistd.h"
 #include "stdio.h"
 #include "Libft/libft.h"
-#include "fcntl.h" 						// ONLY FOR TESTING !
-#include "TESTONLY_GNL/get_next_line.h" // ONLY FOR TESTING !
+#include "Libft/ft_printf.h"
+#include "fcntl.h"
 
-char *getting_cmd_path(char **argv, char **envp)
+char *getting_cmd_path(char *argv, char **envp)
 {
 	// --- PARSING ENVIRONMENTAL VARIABLES
 	char *env_path = NULL;
@@ -37,7 +37,7 @@ char *getting_cmd_path(char **argv, char **envp)
 	char *cmd_path;
 	while (paths[++i])
 	{
-		cmd_path = ft_strjoin(paths[i], argv[2]);
+		cmd_path = ft_strjoin(paths[i], argv);
 		if (!(access(cmd_path, F_OK | X_OK)))
 			break;
 		free(cmd_path);
@@ -45,22 +45,65 @@ char *getting_cmd_path(char **argv, char **envp)
 	return(cmd_path);
 }
 
-int main (int argc, char **argv, char **envp)
+void do_child_work(char **argv, char **envp, int pipe_ends[2], int out_fd, int i)
 {
-//char *options[3] = {"ls", "-l", NULL};
-//execve("/bin/ls", options, envp);
-
 	char *cmd_path;
 	
-	if (!(cmd_path = getting_cmd_path(argv, envp)))
-	{
+	dup2(out_fd, STDOUT_FILENO);
+	close(pipe_ends[0]);
+	close(pipe_ends[1]);
+	char **cmd = ft_split(argv[i + 2], ' ');
+	if (!(cmd_path = getting_cmd_path(cmd[0], envp)))
 		perror(cmd_path);
-		return (-1);
-	}
-	execve(cmd_path, argv, envp);
-	//printf("	cmdpath = %s\n", cmd_path);
+	execve(cmd_path, cmd, envp);
+}
 
-	//execve("/bin/ls", options, envp);
+int main (int argc, char **argv, char **envp)
+{
+	int pipe_ends[2];
+	
+	if (argc < 3)
+		return (1);
+
+	pid_t pid;
+
+	int i = 0;
+	int in_file = open(argv[1], O_RDONLY);
+	int out_file = open(argv[argc - 1], O_RDWR | O_CREAT \
+														| O_TRUNC, 0666);
+
+	if (in_file == -1)
+		write(1, "Open infile failed", 40);
+	if (out_file == -1)
+		write(1, "Open outfile failed", 50);
+	
+	dup2(in_file, STDIN_FILENO);
+
+	while (i < argc - 3)
+	{
+		if (pipe(pipe_ends) == -1)
+			return(1);
+		
+		if ((pid = fork()) == -1)
+			return (1);
+		else if (pid == 0)
+		{
+			int size = 0;
+			while (argv[size] != 0)
+				size++;
+			if (i == size - 4)
+				do_child_work(argv, envp, pipe_ends, out_file, i);
+			else
+				do_child_work(argv, envp, pipe_ends, pipe_ends[1], i);
+		}
+		waitpid(pid, NULL, 0);
+		dup2(pipe_ends[0], STDIN_FILENO);
+		close(pipe_ends[0]);
+		close(pipe_ends[1]);
+		i++;
+	}
+	close(in_file);
+	close(out_file);
 
 	return(0);
 }

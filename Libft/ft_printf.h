@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 17:17:21 by Konstantin        #+#    #+#             */
-/*   Updated: 2022/08/01 20:45:36 by kokrokhi         ###   ########.fr       */
+/*   Created: 2022/07/07 21:37:14 by kokrokhi          #+#    #+#             */
+/*   Updated: 2022/07/09 13:31:11 by kokrokhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#ifndef PUTCHAR
-# define PUTCHAR
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
+# include <stdarg.h>
+# include <stdio.h>
+# include <unistd.h>
+
+int	ft_printchar(int c);
+int	ft_printf(const char *format, ...);
+int	ft_printstring(char *str);
+int	ft_printvoid(unsigned long int ptr);
+int	ft_printdecimal(int n);
+int	ft_printhex(unsigned int hex, const char format);
+int	ft_printunsigned(unsigned int n);
+
 #endif
