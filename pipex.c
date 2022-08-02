@@ -6,7 +6,7 @@
 /*   By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 20:51:09 by kokrokhi          #+#    #+#             */
-/*   Updated: 2022/08/02 00:00:49 by kokrokhi         ###   ########.fr       */
+/*   Updated: 2022/08/02 15:08:00 by kokrokhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ int	main(int argc, char **argv, char **envp)
 	int		in_file;
 	int		i;
 
-	if (argc < 3 || envp == 0)
-		return (1);
+	if (argc < 5 || envp == 0)
+		return (printf("Error! Format: in_file cmd1 cmd2 ... cmdn out_file"));
 	i = 0;
 	open_files(argc, argv, &in_file, &out_file);
 	while (i < argc - 3)
 	{
 		if (pipe_and_fork(pipe_ends, &pid) == 1)
-			return (1);
+			return (printf("Fork failed!"));
 		else if (pid == 0)
 		{
 			if (i == calc_size(argv) - 4)

@@ -6,11 +6,31 @@
 /*   By: kokrokhi <kokrokhi@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 23:17:35 by kokrokhi          #+#    #+#             */
-/*   Updated: 2022/08/02 00:19:22 by kokrokhi         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:46:04 by kokrokhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "errno.h"
+#include "string.h"
+
+void	display_error_msg(char *cmd, char *additional_cmd, void *ptr_to_free)
+{
+	char	*msg;
+
+	msg = NULL;
+	if (ptr_to_free)
+		free(ptr_to_free);
+	if (ft_strlen(additional_cmd) > 0)
+	{
+		msg = ft_strjoin(cmd, additional_cmd);
+		perror(msg);
+		free(msg);
+	}
+	else
+		perror(cmd);
+	exit(EXIT_FAILURE);
+}
 
 char	*find_path(char **envp, int i)
 {
@@ -68,9 +88,9 @@ void	do_child_work(char *argv, char **envp,
 	cmd = ft_split(argv, ' ');
 	cmd_path = getting_cmd_path(cmd[0], envp);
 	if (!cmd_path)
-		perror(cmd_path);
-	if (!execve(cmd_path, cmd, envp))
-		write(3, "!", 1);
+		display_error_msg("Path failed", "", cmd);
+	if (execve(cmd_path, cmd, envp) == -1)
+		display_error_msg("command not found: ", cmd[0], cmd);
 }
 
 void	open_files(int argc, char **argv, int *in_file, int *out_file)
@@ -79,8 +99,8 @@ void	open_files(int argc, char **argv, int *in_file, int *out_file)
 	*out_file = open(argv[argc - 1], O_RDWR | O_CREAT \
 														| O_TRUNC, 0666);
 	if (*in_file == -1)
-		write(1, "Opening infile failed!\n", 26);
+		display_error_msg("Opening infile failed! ", "", NULL);
 	if (*out_file == -1)
-		write(1, "Opening outfile failed!\n", 27);
+		display_error_msg("Opening outfile failed! ", "", NULL);
 	dup2(*in_file, STDIN_FILENO);
 }
